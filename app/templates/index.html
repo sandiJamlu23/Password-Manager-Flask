@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Saved Passwords</h2>
+
+{% if entries %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Account</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries %}
+                <tr>
+                    <td>{{ entry.account }}</td>
+                    <td>{{ entry.username }}</td>
+                    <td>{{ entry.password }}</td>
+                    <td>
+                        <a href="{{ url_for('main.edit', id=entry.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{{ url_for('main.delete', id=entry.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this entry?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p class="text-muted">No passwords saved yet. Add one!</p>
+{% endif %}
+{% endblock %}

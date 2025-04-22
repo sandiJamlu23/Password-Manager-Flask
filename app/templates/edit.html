@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Edit Entry</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label class="form-label">Account</label>
+        <input type="text" name="account" class="form-control" value="{{ entry.account }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" value="{{ entry.username }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="text" name="password" class="form-control" value="{{ entry.password }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+{% endblock %}
