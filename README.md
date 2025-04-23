@@ -13,7 +13,8 @@ password_manager_app/
 │   ├── index.html         
 │   ├── login.html         
 │   ├── register.html         
-│   ├── security.html       
+│   ├── security.html    
+
 ├── static/                # Static files
 │   └── style.css          # Custom CSS with library theme
 ├── library.db             # SQLite database
