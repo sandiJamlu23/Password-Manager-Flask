@@ -4,15 +4,21 @@ A simple, secure password manager built with Flask.
 It allows you to store, manage, and view your passwords with AES encryption.  
 
 ## Project Structures
-password_manager_app/
-├── run.py                 # Main Flask app with blueprint, routes, search, and book covers
-├── templates/             # HTML templates
-│   ├── base.html          # Base template with navbar and flash messages
-│   ├── books.html         # Book list with cards, modals, search, and images
-├── static/                # Static files
-│   └── style.css          # Custom CSS with library theme
-├── library.db             # SQLite database
-└── requirements.txt       # Dependencies
+password_manager_app/  
+├── run.py                 # Main application entry point  
+├── templates/             # HTML templates  
+│   ├── base.html          # Base template  
+│   ├── add.html           # Add password page  
+│   ├── edit.html          # Edit password page  
+│   ├── index.html         # Homepage (password list)  
+│   ├── login.html         # Login page  
+│   ├── register.html      # Registration page  
+│   └── security.html      # Security settings page  
+├── static/                # Static files (CSS, JS, images)  
+│   ├── style.css          # Custom CSS  
+│   └── password_strength.js  # JavaScript for password strength meter  
+├── library.db             # SQLite database  
+└── requirements.txt       # Python dependencies  
 ## 🚀 Features
 
 - 🔐 Add, edit, and delete password entries
