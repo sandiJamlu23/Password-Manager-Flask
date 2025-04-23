@@ -2,21 +2,126 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Manager</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar {
+            background-color: #f8f9fa;
+            border-right: 1px solid  #dee2e6;
+            min-height: calc(100vh - 56px);
+            padding-top: 20px;
+        }
+        .sidebar .nav-link{
+            color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem ;
+        }
+        .sidebar .nab-link:hover {
+            background-color: #e9ecef;
+        }
+        .sidebar .nav-link.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+        }
+        .content-wrapper {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .strength-meter {
+            padding: 20px;
+        }
+
+        .strength-meter canvas {
+            margin-bottom: 15px;
+        }
+
+        #strengthText {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body class="bg-light">
+    <!-- Top nav bar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">🔐 FlaskPass</a>
-            <a class="nav-link text-light" href="{{ url_for('main.security') }}">Security Score</a>
-            <a class="btn btn-outline-light ms-auto" href="{{ url_for('main.add') }}">+ Add New</a>
             
+            <div class="ms-auto d-flex align-items-center">
+                {% if current_user.is_authenticated %}
+                    <span class="nav-link text-light me-3">Welcome, {{ current_user.username }}</span>
+                    <a class="nav-link text-light" href="{{ url_for('main.logout') }}">Logout</a>
+                {% else %}
+                    <a class="nav-link text-light me-3" href="{{ url_for('main.login') }}">Login</a>
+                    <a class="nav-link text-light" href="{{ url_for('main.register') }}">Register</a>
+                {% endif %}
+            </div>
         </div>
     </nav>
     
-    <div class="container py-4">
-        {% block content %}{% endblock %}
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            {% if current_user.is_authenticated %}
+            <div class="col-lg-2 sidebar">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == url_for('main.index') %}active{% endif %}" 
+                           href="{{ url_for('main.index') }}">
+                            📋 Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == url_for('main.add') %}active{% endif %}" 
+                           href="{{ url_for('main.add') }}">
+                            ➕ Add New Password
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == url_for('main.security') %}active{% endif %}" 
+                           href="{{ url_for('main.security') }}">
+                            🛡️ Security Score
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-10 content-wrapper">
+            {% else %}
+            <div class="col-12 content-wrapper">
+            {% endif %}
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <!-- Main content -->
+                {% block content %}{% endblock %}
+            </div>
+        </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,24 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2 class="mb-4">🔐 Security Score</h2>
-
-{% if reused %}
-    <div class="alert alert-danger">
-        <strong>Warning:</strong> The following passwords are reused across multiple accounts:
+<div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+        <h4 class="mb-0">Security Analysis</h4>
     </div>
-    <ul class="list-group mb-4">
-        {% for pwd, count in reused.items() %}
-            <li class="list-group-item">
-                <strong>{{ count }}</strong> accounts use the same password: <code>{{ pwd }}</code>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <div class="alert alert-success">
-        All passwords are unique. 💅
+    <div class="card-body">
+        {% if not entries %}
+            <div class="alert alert-warning">
+                <strong>Nothing here yet:</strong> You haven't saved any passwords to analyze.
+            </div>
+        {% elif reused %}
+            <div class="alert alert-danger">
+                <strong>Warning:</strong> The following passwords are reused across multiple accounts:
+            </div>
+            <ul class="list-group mb-4">
+                {% for pwd, count in reused.items() %}
+                    <li class="list-group-item">
+                        <strong>{{ count }}</strong> accounts use the same password: <code>{{ pwd }}</code>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-success">
+                All passwords are unique. 💅
+            </div>
+        {% endif %}
+        
+        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Back</a>
     </div>
-{% endif %}
-
-<a href="{{ url_for('main.index') }}" class="btn btn-secondary">Back</a>
+</div>
 {% endblock %}
