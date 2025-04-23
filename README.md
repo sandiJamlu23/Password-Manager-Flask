@@ -36,6 +36,7 @@ password_manager_app/
 - SQLAlchemy (SQLite database)
 - Bootstrap for frontend
 - Cryptography (Fernet/AES) for encryption
+- JS
 
 ## 🛠️ Setup Instructions
 
