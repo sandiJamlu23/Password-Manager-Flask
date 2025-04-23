@@ -12,6 +12,7 @@ def index():
         entry.password = decrypt_password(entry.password)
     return render_template('index.html', entries=entries)
 
+
 @main.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
@@ -46,3 +47,18 @@ def delete(id):
     db.session.delete(entry)
     db.session.commit()
     return redirect(url_for('main.index'))
+
+@main.route('/security')
+def security():
+    entries = PasswordEntry.query.all()
+    
+    # Decrypt all passwords and count their occurrences
+    from app.crypto import decrypt_password
+    password_counts = {}
+    for entry in entries:
+        pwd = decrypt_password(entry.password)
+        password_counts[pwd] = password_counts.get(pwd, 0) + 1
+    
+    reused = {p: c for p, c in password_counts.items() if c > 1}
+    
+    return render_template('security.html', reused=reused)
