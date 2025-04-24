@@ -72,11 +72,11 @@ def logout():
 @login_required
 def add():
     if request.method == 'POST':
-        account = request.form['account']
+        site = request.form['site']
         username = request.form['username']
         password = encrypt_password(request.form['password'])
 
-        new_entry = PasswordEntry(account=account, username=username, password=password)
+        new_entry = PasswordEntry(account=site, username=username, password=password)
         db.session.add(new_entry)
         db.session.commit()
         return redirect(url_for('main.index'))

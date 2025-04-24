@@ -11,7 +11,10 @@ bcrypt = Bcrypt()
 login_manager = LoginManager()
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__,
+                template_folder='templates',
+                static_folder='../static') # Point to the static folder at root level
+                                            # or move static folder under the app
     
     app.config['SECRET_KEY'] = 'dev-secret-key'  
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///passwords.db'

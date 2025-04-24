@@ -1,57 +1,99 @@
-# 🛡️ Flask Password Manager
+# 🔐 Flask Password Manager
 
-A simple, secure password manager built with Flask.  
-It allows you to store, manage, and view your passwords with AES encryption.  
+A secure and user-friendly password manager built with Flask that allows you to safely store and manage your passwords with AES encryption.
 
-## Project Structures
-password_manager_app/  
-├── run.py                 # Main application entry point  
-├── templates/             # HTML templates  
-│   ├── base.html          # Base template  
-│   ├── add.html           # Add password page  
-│   ├── edit.html          # Edit password page  
-│   ├── index.html         # Homepage (password list)  
-│   ├── login.html         # Login page  
-│   ├── register.html      # Registration page  
-│   └── security.html      # Security settings page  
-├── static/                # Static files (CSS, JS, images)  
-│   ├── style.css          # Custom CSS  
-│   └── password_strength.js  # JavaScript for password strength meter  
-├── library.db             # SQLite database  
-└── requirements.txt       # Python dependencies  
-## 🚀 Features
+## ✨ Features
 
-- 🔐 Add, edit, and delete password entries
-- 🧊 AES-encrypted password storage
-- 📋 Bootstrap-styled UI
-- 📊 Security Score page (detect reused passwords)
-- ✅ Ready to expand into a full-featured password manager or browser extension
+- 🛡️ AES-encrypted password storage
+- 👤 User authentication and registration
+- 🔍 Password strength meter with live feedback
+- 📊 Security analysis to detect reused passwords
+- 🎨 Clean and responsive Bootstrap UI
+- 🔄 Add, edit, and delete password entries
+- 📱 Mobile-friendly design
 
-## 🧠 Tech Stack
+## 🛠️ Tech Stack
 
-- Python + Flask
-- SQLAlchemy (SQLite database)
-- Bootstrap for frontend
-- Cryptography (Fernet/AES) for encryption
-- JS
+- **Backend**: Python 3.x, Flask
+- **Database**: SQLAlchemy with SQLite
+- **Security**: 
+  - Bcrypt for password hashing
+  - Fernet (AES) for password encryption
+  - Flask-Login for session management
+- **Frontend**: 
+  - Bootstrap 5
+  - Custom JavaScript for password strength analysis
+  - Responsive design
 
-## 🛠️ Setup Instructions
+## 📋 Prerequisites
 
+- Python 3.x
+- pip (Python package manager)
+
+## 🚀 Installation
+
+1. Clone the repository
 ```bash
-# 1. Clone the repository
-git clone https://github.com/your-username/flask-password-manager.git
+git clone https://github.com/yourusername/flask-password-manager.git
 cd flask-password-manager
+```
 
-# 2. Create a virtual environment
+2. Create and activate a virtual environment
+```bash
 python -m venv venv
-source venv/bin/activate   # or venv\Scripts\activate on Windows
+# On Windows
+venv\Scripts\activate
+# On macOS/Linux
+source venv/bin/activate
+```
 
-# 3. Install dependencies
+3. Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
-# 4. Set environment variables (optional)
-export FLASK_APP=run.py
-export FLASK_ENV=development
+4. Run the application
+```bash
+python run.py
+```
 
-# 5. Run the app
-flask run
+5. Open your browser and navigate to `http://localhost:5000`
+
+## 📁 Project Structure
+
+```
+flask-password-manager/
+├── app/
+│   ├── __init__.py          # App initialization and configuration
+│   ├── routes.py            # Route handlers
+│   ├── models.py            # Database models
+│   ├── crypto.py            # Encryption utilities
+│   └── templates/           # HTML templates
+├── static/
+│   ├── style.css           # Custom styles
+│   └── js/
+│       └── passwordStrength.js  # Password strength checker
+├── run.py                  # Application entry point
+└── requirements.txt        # Project dependencies
+```
+
+## 🔒 Security Features
+
+- AES encryption for stored passwords
+- Bcrypt password hashing for user accounts
+- Password strength analysis
+- Detection of password reuse
+- Secure session management
+- CSRF protection
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/improvement`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/improvement`)
+5. Create a Pull Request
+
+## 📄 License
+
+This project is released under the Unlicense - see the [LICENSE](LICENSE) file for details.
