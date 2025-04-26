@@ -65,16 +65,27 @@ python run.py
 flask-password-manager/
 ├── app/
 │   ├── __init__.py          # App initialization and configuration
-│   ├── routes.py            # Route handlers
-│   ├── models.py            # Database models
-│   ├── crypto.py            # Encryption utilities
-│   └── templates/           # HTML templates
-├── static/
-│   ├── style.css           # Custom styles
-│   └── js/
-│       └── passwordStrength.js  # Password strength checker
-├── run.py                  # Application entry point
-└── requirements.txt        # Project dependencies
+│   ├── routes.py            # Route handlers for the application
+│   ├── models.py            # Database models for users and password entries
+│   ├── crypto.py            # Encryption and decryption logic
+│   ├── templates/           # HTML templates for the app
+│   │   ├── base.html        # Base template for all pages
+│   │   ├── index.html       # Dashboard for saved passwords
+│   │   ├── login.html       # Login page
+│   │   ├── register.html    # Registration page
+│   │   ├── add.html         # Add new password page
+│   │   ├── edit.html        # Edit password page
+│   │   ├── security.html    # Security analysis page
+│   └── static/              # Static files (CSS, JS)
+│       ├── style.css        # Custom styles
+│       ├── js/
+│           ├── darkmode.js  # Dark mode toggle logic
+│           ├── passwordStrength.js # Password strength meter logic
+├── run.py                   # Entry point for running the app
+├── requirements.txt         # Python dependencies
+├── README.md                # Project overview and setup instructions
+├── Procfile                 # Deployment configuration for Heroku
+├── nixpacks.toml            # Nixpacks configuration for deployment
 ```
 
 ## 🔒 Security Features
