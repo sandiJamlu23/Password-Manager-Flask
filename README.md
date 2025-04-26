@@ -1,6 +1,6 @@
 # 🔐 Flask Password Manager
 
-A secure and user-friendly password manager built with Flask that allows you to safely store and manage your passwords with AES encryption.
+A not so secure and definitelly not so user-friendly password manager built with Flask that allows you to safely store and manage your passwords with AES encryption.
 
 ## ✨ Features
 
