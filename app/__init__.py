@@ -32,6 +32,11 @@ def create_app():
     login_manager.login_view = 'main.login'
 
     from .routes import main
+    from .models import User, PasswordEntry  # Add this line
     app.register_blueprint(main)
+
+    # Create tables
+    with app.app_context():
+        db.create_all()
 
     return app
