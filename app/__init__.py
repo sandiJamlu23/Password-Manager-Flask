@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 import os
 from dotenv import load_dotenv
+from .models import User, PasswordEntry  # Ensure this line is correct
 
 load_dotenv()
 

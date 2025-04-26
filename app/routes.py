@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from .models import PasswordEntry
+from .models import PasswordEntry, User
 from . import db
 from . import bcrypt
 from . import login_manager
@@ -7,13 +7,6 @@ from .crypto import encrypt_password, decrypt_password
 from flask_login import UserMixin, login_user, logout_user, login_required, current_user
 
 main = Blueprint('main', __name__)
-
-# user model
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-
 
 @login_manager.user_loader
 def load_user(user_id):
