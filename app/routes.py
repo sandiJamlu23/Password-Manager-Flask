@@ -20,9 +20,10 @@ def index():
         accounts = PasswordEntry.query.filter(
             (PasswordEntry.account.ilike(f'%{search_query}%') |
             PasswordEntry.username.ilike(f'%{search_query}%'))
-        )
+        ).all()
     else:
         entries = PasswordEntry.query.all()
+
     for entry in entries:
         entry.password = decrypt_password(entry.password)
     return render_template('index.html', entries=entries, search_query=search_query)
