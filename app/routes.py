@@ -17,7 +17,7 @@ def index():
     search_query = request.form.get('search', '') if request.method == 'POST' else request.args.get('search', '')
 
     if search_query:
-        accounts = PasswordEntry.query.filter(
+        entries = PasswordEntry.query.filter(
             (PasswordEntry.account.ilike(f'%{search_query}%') |
             PasswordEntry.username.ilike(f'%{search_query}%'))
         ).all()
