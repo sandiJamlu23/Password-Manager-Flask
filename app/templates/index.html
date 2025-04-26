@@ -3,6 +3,13 @@
 {% block content %}
 <h2 class="mb-4">Saved Passwords</h2>
 
+<form method="GET" action="{{ url_for('main.index') }}" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Search by account or username" value="{{ search_query }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
 {% if entries %}
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
@@ -30,6 +37,6 @@
         </table>
     </div>
 {% else %}
-    <p class="text-muted">No passwords saved yet. Add one!</p>
+    <p class="text-muted">No password found. Try a different search or add password!</p>
 {% endif %}
 {% endblock %}

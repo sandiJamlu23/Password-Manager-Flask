@@ -14,10 +14,18 @@ def load_user(user_id):
 
 @main.route('/')
 def index():
-    entries = PasswordEntry.query.all()
+    search_query = request.form.get('search', '') if request.method == 'POST' else request.args.get('search', '')
+
+    if search_query:
+        accounts = PasswordEntry.query.filter(
+            (PasswordEntry.account.ilike(f'%{search_query}%') |
+            PasswordEntry.username.ilike(f'%{search_query}%'))
+        )
+    else:
+        entries = PasswordEntry.query.all()
     for entry in entries:
         entry.password = decrypt_password(entry.password)
-    return render_template('index.html', entries=entries)
+    return render_template('index.html', entries=entries, search_query=search_query)
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
