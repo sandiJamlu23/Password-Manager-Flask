@@ -4,7 +4,6 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 import os
 from dotenv import load_dotenv
-from .models import User, PasswordEntry  # Ensure this line is correct
 
 load_dotenv()
 
@@ -33,11 +32,11 @@ def create_app():
     login_manager.login_view = 'main.login'
 
     from .routes import main
-    from .models import User, PasswordEntry  # Add this line
     app.register_blueprint(main)
 
-    # Create tables
+    # Import models here to avoid circular imports
     with app.app_context():
+        from .models import User, PasswordEntry
         db.create_all()
 
     return app
