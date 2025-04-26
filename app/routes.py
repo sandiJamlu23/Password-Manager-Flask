@@ -13,6 +13,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 @main.route('/')
+@login_required
 def index():
     search_query = request.form.get('search', '') if request.method == 'POST' else request.args.get('search', '')
 
