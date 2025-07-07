@@ -1,0 +1,30 @@
+<!-- templates/settings/dashboard.html -->
+{% extends "settings/base.html" %}
+
+{% block content %}
+<div class="settings-grid">
+    <div class="setting-card">
+        <h3>🔐 Security</h3>
+        <p>Password, 2FA, and login settings</p>
+        <a href="{{ url_for('settings.security_settings') }}" class="btn">Manage</a>
+    </div>
+    
+    <div class="setting-card">
+        <h3>👤 Profile</h3>
+        <p>Email, name, and account preferences</p>
+        <a href="{{ url_for('settings.profile_settings') }}" class="btn">Edit</a>
+    </div>
+    
+    <div class="setting-card">
+        <h3>📦 Data</h3>
+        <p>Export, backup, and data management</p>
+        <a href="{{ url_for('settings.data_settings') }}" class="btn">Manage</a>
+    </div>
+    
+    <div class="setting-card">
+        <h3>🎨 Appearance</h3>
+        <p>Theme, layout, and display options</p>
+        <a href="{{ url_for('settings.appearance_settings') }}" class="btn">Customize</a>
+    </div>
+</div>
+{% endblock %}

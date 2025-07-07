@@ -54,7 +54,13 @@
                             🛡️ Security Score
                         </a>
                     </li>
-                </ul>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link {%  if request.setting == url_for('main.setting') %}active{% endif %}"
+                        href="{{ url_for('main.setting') }}">
+                            ⚙️ Settings
+                    </a>
+                    </li> -->
+                </ul> 
             </div>
             <div class="col-lg-10 content-wrapper">
             {% else %}

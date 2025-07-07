@@ -1,0 +1,29 @@
+<!-- templates/settings/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings - Password Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='settings.css') }}">
+</head>
+<body>
+    <div class="settings-container">
+        <!-- Settings Navigation -->
+        <nav class="settings-nav">
+            <h2>Settings</h2>
+            <ul>
+                <li><a href="{{ url_for('settings.settings_dashboard') }}">Overview</a></li>
+                <li><a href="{{ url_for('settings.security_settings') }}">Security</a></li>
+                <li><a href="{{ url_for('settings.profile_settings') }}">Profile</a></li>
+                <li><a href="{{ url_for('settings.data_settings') }}">Data</a></li>
+                <li><a href="{{ url_for('settings.appearance_settings') }}">Appearance</a></li>
+            </ul>
+            <a href="{{ url_for('dashboard') }}" class="back-link">← Back to Dashboard</a>
+        </nav>
+        
+        <!-- Settings Content -->
+        <main class="settings-main">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

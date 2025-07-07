@@ -1,0 +1,39 @@
+<!-- templates/settings/security.html -->
+{% extends "settings/base.html" %}
+
+{% block content %}
+<div class="settings-section">
+    <h2>Security Settings</h2>
+    
+    <!-- Password Section -->
+    <div class="setting-item">
+        <h3>Password</h3>
+        <p>Last changed: {{ user.password_changed_at.strftime('%B %d, %Y') }}</p>
+        <button class="btn btn-secondary" onclick="showPasswordModal()">Change Password</button>
+    </div>
+    
+    <!-- 2FA Section -->
+    <div class="setting-item">
+        <h3>Two-Factor Authentication</h3>
+        {% if user.two_fa_enabled %}
+            <p class="status-enabled">✅ Enabled</p>
+            <p>Your account is protected with 2FA</p>
+            <div class="2fa-actions">
+                <a href="{{ url_for('settings.two_fa_settings') }}" class="btn">Manage 2FA</a>
+                <button class="btn btn-danger" onclick="confirm2FADisable()">Disable 2FA</button>
+            </div>
+        {% else %}
+            <p class="status-disabled">❌ Disabled</p>
+            <p>Add an extra layer of security to your account</p>
+            <a href="{{ url_for('settings.setup_2fa') }}" class="btn btn-primary">Enable 2FA</a>
+        {% endif %}
+    </div>
+    
+    <!-- Login Sessions -->
+    <div class="setting-item">
+        <h3>Active Sessions</h3>
+        <p>Manage your logged-in devices</p>
+        <button class="btn btn-secondary">View Sessions</button>
+    </div>
+</div>
+{% endblock %}
