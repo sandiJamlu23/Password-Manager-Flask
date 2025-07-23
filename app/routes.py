@@ -7,6 +7,9 @@ from .crypto import encrypt_password, decrypt_password
 from flask_login import UserMixin, login_user, logout_user, login_required, current_user
 import pyotp
 import time
+import qrcode
+import base64
+from io import BytesIO
 
 main = Blueprint('main', __name__)
 settings_bp = Blueprint('settings', __name__, url_prefix='/setting')
@@ -59,10 +62,12 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         user = User.query.filter_by(username=username).first()
+
         if user and bcrypt.check_password_hash(user.password, password):
             # check if 2FA is enabled
             if user.is_2fa_enabled:
                 session['2fa_user_id'] = user.id
+                flash('2FA is enabled. Please enter your token.', 'info')
                 return redirect(url_for('main.verify_2fa'))
             else:
                 login_user(user)
@@ -71,7 +76,6 @@ def login():
         else:
             flash('Login failed. Check your username and password', 'danger')
     return render_template('login.html')
-    
 
 @main.route('/logout')
 @login_required
@@ -148,7 +152,7 @@ def setting_dashboard():
     # user_id = session.get('user_id')
     user = current_user
 
-    return render_template('setting_dashboard.html', user=user)
+    return render_template('settings/dashboard.html', user=user)
 
 @main.route('/setting/security')
 @login_required
@@ -177,6 +181,12 @@ def setup_2fa():
     # create time-based one-time password (TOTP) URI
     totp = pyotp.TOTP(secret)
     uri = totp.provisioning_uri(name=user.username, issuer_name='PasswordManager')
+
+    # generate qr code 
+    img = qrcode.make(uri)
+    buf = BytesIO()
+    img.save(buf, format='PNG')
+    qr_code = base64.b64encode(buf.getvalue()).decode('utf-8')
 
     # qrCode = generate_qr_code(secret, user.username)
     return render_template('settings/2fa_setup.html', uri=uri, user=user)
