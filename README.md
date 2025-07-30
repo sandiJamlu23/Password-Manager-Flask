@@ -4,13 +4,13 @@ A not so secure and definitelly not so user-friendly password manager built with
 
 ## ✨ Features
 
+- 2️⃣ 2FA Authentication
 - 🛡️ AES-encrypted password storage
 - 👤 User authentication and registration
 - 🔍 Password strength meter with live feedback
 - 📊 Security analysis to detect reused passwords
-- 🎨 Clean and responsive Bootstrap UI
 - 🔄 Add, edit, and delete password entries
-- 📱 Mobile-friendly design
+
 
 ## 🛠️ Tech Stack
 
@@ -104,7 +104,5 @@ flask-password-manager/
 3. Commit your changes (`git commit -am 'Add new feature'`)
 4. Push to the branch (`git push origin feature/improvement`)
 5. Create a Pull Request
+6. OR you could use DOCKER 
 
-## 📄 License
-
-This project is released under the Unlicense - see the [LICENSE](LICENSE) file for details.
