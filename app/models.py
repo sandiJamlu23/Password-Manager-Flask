@@ -6,6 +6,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     is_2fa_enabled = db.Column(db.Boolean, default=False)
+    totp_secret = db.Column(db.String(32), nullable=True)
 
 class PasswordEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)

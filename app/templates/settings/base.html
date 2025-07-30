@@ -12,12 +12,13 @@
             <h2>Settings</h2>
             <ul>
                 <li><a href="{{ url_for('main.setting_dashboard') }}">Overview</a></li>
+                <li><a href="{{ url_for('main.two_fa_settings') }}">2 Two-Factor Authentication</a></li>
                 <li><a href="{{ url_for('main.security_settings') }}">Security</a></li>
-                <li><a href="{{ url_for('main.profile_settings') }}">Profile</a></li>
-                <li><a href="{{ url_for('main.data_settings') }}">Data</a></li>
-                <li><a href="{{ url_for('main.appearance_settings') }}">Appearance</a></li>
+                <li><a href="#">Profile (coming soon)</a></li>
+                <li><a href="#">Data (soon)</a></li>
+                <li><a href="#">Appearance (yeah, yeah, I'll make it)</a></li>
             </ul>
-            <a href="{{ url_for('dashboard') }}" class="back-link">← Back to Dashboard</a>
+            <a href="{{ url_for('main.index') }}" class="back-link">← Back</a>
         </nav>
         
         <!-- Settings Content -->

@@ -7,8 +7,6 @@ from .crypto import encrypt_password, decrypt_password
 from flask_login import UserMixin, login_user, logout_user, login_required, current_user
 import pyotp
 import time
-import qrcode
-import base64
 from io import BytesIO
 
 main = Blueprint('main', __name__)
@@ -70,6 +68,7 @@ def login():
                 flash('2FA is enabled. Please enter your token.', 'info')
                 return redirect(url_for('main.verify_2fa'))
             else:
+                # normal login
                 login_user(user)
                 flash('Logged in successfully', 'success')
                 return redirect(url_for('main.index'))
@@ -161,37 +160,57 @@ def security_settings():
     
     return render_template('settings/security.html', user=user)
 
-@main.route('/2fa')
+# @main.route('/setting/2fa')
+# @login_required
+# def two_fa_settings():
+#     user = current_user
+    
+#     return render_template('settings/2fa.html', user=user)
+
+@main.route('/setting/2fa')
 @login_required
 def two_fa_settings():
     user = current_user
+
+    # Generate a secret key for 2FA setup (only if user doesn't have one)
+    if not user.totp_secret:
+        secret = pyotp.random_base32()
+        user.totp_secret = secret
+        db.session.commit()
     
-    return render_template('settings/2fa.html', user=user)
-
-@main.route('/2fa/setup')
-@login_required
-def setup_2fa():
-    user = current_user
-
-    # Generate a secret key for 2FA setup
-    secret = pyotp.random_base32()
-    user.totp_secret = secret
-    db.session.commit()
+    # use ecisting code
+    secret = user.totp_secret
 
     # create time-based one-time password (TOTP) URI
-    totp = pyotp.TOTP(secret)
+    totp = pyotp.TOTP(user.totp_secret)
     uri = totp.provisioning_uri(name=user.username, issuer_name='PasswordManager')
 
-    # generate qr code 
-    img = qrcode.make(uri)
+    import qrcode
+    from io import BytesIO
+    import base64
+    from PIL import Image
+    # from qrcode.image.pure import PyPNGImage
+
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L, 
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(uri)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color='black', back_color='white')
+
+    # convert img to base64
     buf = BytesIO()
     img.save(buf, format='PNG')
+    buf.seek(0)
     qr_code = base64.b64encode(buf.getvalue()).decode('utf-8')
-
     # qrCode = generate_qr_code(secret, user.username)
-    return render_template('settings/2fa_setup.html', uri=uri, user=user)
+    return render_template('settings/2fa.html', uri=uri, user=user, qr_code=qr_code)
 
-@main.route('/2fa/confirm-2fa', methods=['POST'])
+@main.route('/setting/2fa/confirm-2fa', methods=['POST'])
 @login_required
 def confirm_2fa():
     # user_id = session.get('user_id')
@@ -199,9 +218,13 @@ def confirm_2fa():
     token = request.form.get('token')
 
     totp = pyotp.TOTP(user.totp_secret)
+    current_code = totp.now()
+    print("Expected code: ", current_code)
+    print("User entered", token)
 
     # verify the token entered by user vs. totp.now
-    if totp.verify() == token:
+    if totp.verify(token):
+        print(f"Token verified! Token was: {token}")
         user.is_2fa_enabled = True
         db.session.commit()
         flash('2FA has been enabled successfully.', 'success')
@@ -229,7 +252,7 @@ def disable_2fa():
     return redirect(url_for('main.security_settings'))
 
 # Add this route to handle 2FA verification during login
-@main.route('/verify-2fa', methods=['GET', 'POST'])
+@main.route('/setting/verify-2fa', methods=['GET', 'POST'])
 def verify_2fa():
     # This should only be accessible if user is partially logged in
     if not session.get('2fa_user_id'):
@@ -251,4 +274,4 @@ def verify_2fa():
         else:
             flash('Invalid 2FA code. Please try again.', 'danger')
     
-    return render_template('verify_2fa.html')
+    return render_template('/settings/verify_2fa.html')
