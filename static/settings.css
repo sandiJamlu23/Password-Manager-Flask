@@ -42,3 +42,27 @@
 
 .status-enabled { color: #28a745; }
 .status-disabled { color: #dc3545; }
+
+.setting-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}    
+.setting-card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.setting-card h3 {
+    margin-top: 0;
+    color: #333;
+}
+.setting-card p {
+    color: #666;
+    margin: 10px 0 20px 0;
+
+}

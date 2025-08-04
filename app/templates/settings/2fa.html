@@ -3,21 +3,48 @@
 {% block content %}
 <div class="settings-section">
     <h2>Enable Two-Factor Authentication</h2>
-    <p>Scan this QR code with your authenticator app (Google Authenticator, Authy, etc.):</p>
-    <img src="data:image/png;base64,{{ qr_code }}" alt="2FA QR Code" style="margin-bottom:20px;max-width:200px;" />
-    <form method="POST" action="{{ url_for('main.confirm_2fa') }}">
-        <div class="mb-3">
-            <label for="token" class="form-label">Enter the 6-digit code from your app:</label>
-            <input type="text" class="form-control" id="token" name="token" required>
-        </div>
-        <button type="submit" class="btn btn-success">Verify & Enable 2FA</button>
-        <!-- {%  with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %} -->
-    </form>
+    {% if current_user.is_2fa_enabled %}
+        <p>✅ 2FA is enabled.</p>
+        <!-- <button type="button" class="btn btn-danger" onclick="disable_2fa()">Disable 2FA</button> -->
+        
+        <!-- disable 2fa -->
+        <form method="POST" action="{{ url_for('main.disable_2fa') }}">
+            <div class="mb-3">
+                <label for="token" class="form-label">Enter your 6-digit code to disable 2FA:</label>
+                <input type="text" class="form-control" id="token" name="token" required maxlength="6">
+            </div>
+            <button type="submit" class="btn btn-danger">Disable 2FA</button>
+        </form>
+            
+    
+    {% else %}
+        <p>Scan this QR code with your authenticator app (Google Authenticator, Authy, etc.):</p>
+        <img src="data:image/png;base64,{{ qr_code }}" alt="2FA QR Code" style="margin-bottom:20px;max-width:200px;" />
+        <form method="POST" action="{{ url_for('main.confirm_2fa') }}">
+            
+            <div class="mb-3">
+                <label for="token" class="form-label">Enter the 6-digit code from your app:</label>
+                <input type="text" class="form-control" id="token" name="token" required>
+            </div>
+            <button type="submit" class="btn btn-success">Verify & Enable 2FA</button>
+            <!-- {%  with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %} -->
+        </form>
+    {% endif %}
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
 </div>
 {% endblock %}

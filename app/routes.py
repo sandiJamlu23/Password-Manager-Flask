@@ -228,28 +228,10 @@ def confirm_2fa():
         user.is_2fa_enabled = True
         db.session.commit()
         flash('2FA has been enabled successfully.', 'success')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.two_fa_settings'))
     return render_template('settings/2fa.html', user=user, error='Invalid token. Please try again.')
 
-@main.route('/setting/2fa/disable', methods=['POST'])
-@login_required
-def disable_2fa():
-    user = current_user
-    
-    # Ask for current password for security
-    current_password = request.form.get('current_password')
-    
-    if not bcrypt.check_password_hash(user.password, current_password):
-        flash('Invalid password. Cannot disable 2FA.', 'danger')
-        return redirect(url_for('main.two_fa_settings'))
-    
-    # Disable 2FA
-    user.is_2fa_enabled = False
-    user.totp_secret = None  # Clear the secret
-    db.session.commit()
-    
-    flash('2FA has been disabled.', 'success')
-    return redirect(url_for('main.security_settings'))
+
 
 # Add this route to handle 2FA verification during login
 @main.route('/setting/verify-2fa', methods=['GET', 'POST'])
@@ -275,3 +257,32 @@ def verify_2fa():
             flash('Invalid 2FA code. Please try again.', 'danger')
     
     return render_template('/settings/verify_2fa.html')
+
+@main.route('/setting/2fa/disable', methods=['POST'])
+@login_required
+def disable_2fa():
+    user = current_user
+    
+    # Ask for current password for security
+    # current_password = request.form.get('current_password')
+    # if not bcrypt.check_password_hash(user.password, token):
+    #     flash('Invalid password. Cannot disable 2FA.', 'danger')
+    #     return redirect(url_for('main.two_fa_settings'))
+    
+
+    # ask token instead
+    token = request.form.get('token')
+    totp = pyotp.TOTP(user.totp_secret)
+    if not totp.verify(token):
+        flash('Invalid token. Cannot disable 2FA.', 'danger')
+        return redirect(url_for('main.two_fa_settings'))
+    
+    # Disable 2FA
+    user.is_2fa_enabled = False
+    user.totp_secret = None  # Clear the secret
+    db.session.commit()
+    
+    flash('2FA has been disabled.', 'success')
+    return redirect(url_for('main.security_settings'))
+
+
