@@ -14,8 +14,8 @@ A not so secure and definitelly not so user-friendly password manager built with
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Python 3.x, Flask
-- **Database**: SQLAlchemy with SQLite
+- **Backend**: Python 3.9, Flask
+- **Database**: SQLAlchemy with SQLite (postgreSQL for Railway deployment)
 - **Security**: 
   - Bcrypt for password hashing
   - Fernet (AES) for password encryption
